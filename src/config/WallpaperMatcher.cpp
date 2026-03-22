@@ -26,7 +26,9 @@ void CWallpaperMatcher::addStates(std::vector<CConfigManager::SSetting>&& s) {
     }
 
     std::erase_if(m_settings, [&s](const auto& e) { return std::ranges::any_of(s, [&e](const auto& el) { return el.monitor == e.monitor; }); });
-    m_settings.append_range(std::move(s));
+    for (auto& ss : s) {
+        m_settings.emplace_back(std::move(ss));
+    }
     recalcStates();
 }
 
